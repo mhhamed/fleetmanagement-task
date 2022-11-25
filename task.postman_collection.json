@@ -1,0 +1,203 @@
+{
+	"info": {
+		"_postman_id": "8b464f8f-ae9e-4aa3-b2b1-a0b620059589",
+		"name": "task",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13467159"
+	},
+	"item": [
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "Authentication",
+					"item": [
+						{
+							"name": "login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"    pm.response.to.have.status(200);\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.environment.set(\"token\", jsonData.token);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "phone",
+											"value": "01021959959",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "password",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{domain}}/auth/login",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Process",
+			"item": [
+				{
+					"name": "trips",
+					"item": [
+						{
+							"name": "trips list",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/trips",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"trips"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "available seats",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{domain}}/trips/2/seats?from_point_id=3&to_point_id=4&date=2022-11-25&time=12:00:00",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"trips",
+										"2",
+										"seats"
+									],
+									"query": [
+										{
+											"key": "from_point_id",
+											"value": "3"
+										},
+										{
+											"key": "to_point_id",
+											"value": "4"
+										},
+										{
+											"key": "date",
+											"value": "2022-11-25"
+										},
+										{
+											"key": "time",
+											"value": "12:00:00",
+											"description": "you can use it for testing purpose as in code im handling the real time so if you send time i will ignore the real time"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "booking",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "trip_id",
+											"value": "2",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "from_point_id",
+											"value": "3",
+											"description": "required expected to be from the user filter for trip",
+											"type": "text"
+										},
+										{
+											"key": "to_point_id",
+											"value": "4",
+											"description": "required expected to be from the user filter for trip",
+											"type": "text"
+										},
+										{
+											"key": "seat_id",
+											"value": "17",
+											"description": "required",
+											"type": "text"
+										},
+										{
+											"key": "date",
+											"value": "2022-11-25 ",
+											"description": "required",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{domain}}/booking",
+									"host": [
+										"{{domain}}"
+									],
+									"path": [
+										"booking"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
