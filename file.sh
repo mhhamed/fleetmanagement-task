@@ -5,5 +5,5 @@ cp .env.example .env
 php artisan key:generate
 php artisan jwt:secret
 cd ..
-docker  exec -it php_task php artisan migrate:fresh --seed
+docker  exec -it php_task php artisan migrate --seed
 echo http://localhost:8080
